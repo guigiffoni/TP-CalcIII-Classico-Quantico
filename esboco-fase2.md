@@ -29,6 +29,7 @@ De forma que os membros ficassem distribuídos como destacado abaixo:
 ### Computação Quântica
 - Filipe Quaresma Pereira
 - Guilherme Amaral Giffoni
+    - Introdução, história e desafios térmicos
 - Kathleen Rodrigues Lei'te Barbosa
 - Lucas Medeiros Bougleux
 
