@@ -1,0 +1,57 @@
+% ══════════════════════════════════════════════════════════════
+\section{CENA 5 --- Conectando os Dois Mundos \hfill \normalfont\small\color{corTempo}18:00 -- 19:30}
+% ══════════════════════════════════════════════════════════════
+
+\tempo{18:00 -- 18:45}
+
+\begin{visual}
+\faFilm\ Split-screen final: heatmap clássico à esquerda, Esfera de Bloch à direita.
+Seta conectando $T_{\text{média}} = 66{,}28$ {\textdegree}C ao raio $r_T = 0{,}2752$.
+\end{visual}
+
+\begin{fala}
+Olha o que construímos. Pegamos uma função de temperatura, integramos sobre
+a superfície do chip -- integral \textbf{dupla} -- e chegamos a 66,28 graus.
+Esse número alimentou o modelo quântico, que virou o raio da nuvem.
+Integramos sobre o volume da esfera -- integral \textbf{tripla} --
+e chegamos a 2,08\% de erro.
+\end{fala}
+
+\begin{fala}
+Resultado importante: $P_{\text{erro}} = r_T^3$, e $r_T$ depende linearmente
+de $T_{\text{média}}$. O erro quântico cresce com o \textbf{cubo} da temperatura.
+Pequenos aumentos produzem impactos desproporcionalmente grandes na fidelidade.
+\end{fala}
+
+\tempo{18:45 -- 19:30}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=9.5cm, height=5cm,
+  xlabel={$T_{\text{média}}$ ({\textdegree}C)},
+  ylabel={$P_{\text{erro}}$ (\%)},
+  xmin=25, xmax=100, ymin=0, ymax=13,
+  grid=major, grid style={gray!25},
+  title={Probabilidade de erro $\times$ temperatura média},
+  xtick={25,40,56,66,80,100},
+  xticklabel style={font=\small},
+  yticklabel style={font=\small},
+]
+\addplot[NavyBlue, thick, domain=25:100, samples=30]
+  { ((0.5*(x-25)/75)^3)*100 };
+\addplot[only marks, mark=*, mark size=3.5pt, red]
+  coordinates {(66.28, 2.08)};
+\node[font=\scriptsize, red] at (axis cs:74, 3.3)
+  {$66{,}28\,\text{\textdegree C} \to 2{,}08\%$};
+\addplot[dashed, red!60, domain=25:100] {1.0}
+  node[pos=0.04, above, font=\scriptsize, red!70]{tol.\ $1\%$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{fala}
+Uma redução de apenas dez graus na temperatura média do chip --
+de 66 para 56 graus -- já seria suficiente para cruzar o limiar de tolerância.
+\textbf{Dez graus. É o que separa um qubit funcional de um que erra demais.}
+\end{fala}

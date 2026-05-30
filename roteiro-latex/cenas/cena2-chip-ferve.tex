@@ -1,0 +1,276 @@
+% ══════════════════════════════════════════════════════════════
+\section{CENA 2 --- O Chip que Ferve: Integral Dupla \hfill \normalfont\small\color{corTempo}2:00 -- 10:00}
+% ══════════════════════════════════════════════════════════════
+
+\subsection{2.1 -- O problema físico}
+\tempo{2:00 -- 3:30}
+
+\begin{visual}
+\faFilm\ Câmera voa sobre a superfície do chip como drone. Cores indicam temperatura:
+azul nas bordas, laranja/vermelho no centro.
+\end{visual}
+
+\begin{fala}
+Imagine que você precisa saber a temperatura real de um processador.
+Parece fácil, né? Coloca um sensor e pronto.
+\end{fala}
+
+\begin{visual}
+\faFilm\ Um único ponto de medição aparece no chip, mostrando 72 {\textdegree}C.
+Mas outras regiões mostram 45 {\textdegree}C, 160 {\textdegree}C, 55 {\textdegree}C simultaneamente.
+O sensor pega apenas um deles.
+\end{visual}
+
+\begin{fala}
+O problema é que um sensor pontual te dá \textbf{um} valor. Mas um chip real
+tem pontos a 45 graus, regiões a 100 graus, e hotspots a 160 graus --
+tudo ao mesmo tempo. Um único número não conta a história inteira.
+\end{fala}
+
+\begin{fala}
+Para enxergar o chip de verdade, a gente precisa de uma ferramenta que
+\textbf{integre} toda a superfície. E é exatamente aí que entra a integral dupla.
+\end{fala}
+
+\begin{tela}
+\faDesktop\ \textbf{Equação aparece na tela, termo por termo:}
+\end{tela}
+
+\begin{mathblock}
+\textbf{\color{corMath}\faSuperscript\ A fórmula da temperatura média:}
+
+\vspace{6pt}
+\[
+  T_{\text{média}}
+  \;=\;
+  \frac{1}{\underbrace{\text{Área}}_{\text{tamanho do chip}}}
+  \iint_{A}
+  \underbrace{T(x,\,y)}_{\text{temp.\ em cada ponto}}
+  \,\mathrm{d}x\,\mathrm{d}y
+\]
+
+\vspace{4pt}
+{\small\color{gray}
+\textbf{Como ler isso:} varremos cada ponto $(x,y)$ da superfície, lemos a temperatura
+lá, somamos tudo e dividimos pela área total. É a média de verdade -- não um chute.}
+\end{mathblock}
+
+\begin{fala}
+Geometricamente, a integral dupla está calculando o \textbf{volume} debaixo
+da superfície de temperatura. Dividindo pela área da base, obtemos a
+\textbf{altura média} -- que é exatamente a temperatura média que queremos.
+\end{fala}
+
+\begin{visual}
+\faFilm\ Animação 3D: superfície T(x,y) flutua sobre o chip. Uma fatia horizontal
+mostra a altura média. O volume entre superfície e chip fica colorido de laranja.
+\end{visual}
+
+% ─────────────────────────────────────────────────────────────
+\subsection{2.2 -- Escolhendo a função T(x,y)}
+\tempo{3:30 -- 5:00}
+% ─────────────────────────────────────────────────────────────
+
+\begin{fala}
+Mas que função a gente usa pra representar o calor do chip?
+Hotspots no mundo real têm um formato muito característico:
+picos concentrados -- quentes no centro, esfriando em volta.
+Sabe quem tem esse formato? A Gaussiana.
+\end{fala}
+
+\begin{visual}
+\faFilm\ Animação: curva de sino em 2D se expande para montanha 3D centralizada no chip.
+Legenda: ``Gaussiana = pico natural do mundo físico''.
+\end{visual}
+
+\begin{tela}
+\faDesktop\ \textbf{Função na tela:}
+\end{tela}
+
+\begin{mathblock}
+\textbf{\color{corMath}\faSuperscript\ Função temperatura escolhida:}
+
+\[
+  T(x,\,y)
+  \;=\;
+  \underbrace{60}_{\substack{\text{temperatura}\\\text{de base ({\textdegree}C)}}}
+  \;+\;
+  \underbrace{100}_{\substack{\text{pico do}\\\text{hotspot ({\textdegree}C)}}}
+  \cdot\;
+  \exp\!\Bigl[
+    -\,\frac{(x-0{,}5)^2 + (y-0{,}5)^2}{2\times(0{,}1)^2}
+  \Bigr]
+\]
+
+\vspace{6pt}
+{\small\color{gray}
+Domínio: $[0,1]\times[0,1]$ (chip de $1\,\text{cm} \times 1\,\text{cm}$) \quad
+Centro do hotspot: $(0{,}5;\;0{,}5)$ \quad
+$\sigma = 0{,}1\,\text{cm}$ \quad
+$T_{\max} = 160\,\text{\textdegree C}$}
+\end{mathblock}
+
+\ferramenta{Matplotlib -- heatmap da função T(x,y)}
+
+\begin{lstlisting}[caption={Mapa de calor com Matplotlib}]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Discretização (os mesmos dados do roteiro)
+x = np.linspace(0, 1, 100)
+y = np.linspace(0, 1, 100)
+X, Y = np.meshgrid(x, y)
+T = 60 + 100 * np.exp(-((X-0.5)**2 + (Y-0.5)**2) / 0.02)
+
+fig = plt.figure(figsize=(10, 7))
+ax = fig.add_subplot(111, projection='3d')
+surf = ax.plot_surface(X, Y, T, cmap='hot', edgecolor='none', alpha=0.9)
+ax.set_title('Hotspot Gaussiano no Processador')
+ax.set_zlim(60, 160)
+plt.colorbar(surf, label='Temperatura (°C)')
+plt.show()
+\end{lstlisting}
+
+\begin{visual}
+\faFilm\ Heatmap aparece na tela. Vermelho intenso no centro, azul nas bordas.
+Seta apontando para o centro: ``HOTSPOT: 160 {\textdegree}C''.
+\end{visual}
+
+% ─────────────────────────────────────────────────────────────
+\subsection{2.3 -- Calculando a integral dupla}
+\tempo{5:00 -- 8:00}
+% ─────────────────────────────────────────────────────────────
+
+\begin{fala}
+Agora sim. Vamos calcular a temperatura média de verdade.
+Substituindo nossa função na fórmula da integral dupla:
+\end{fala}
+
+\begin{mathblock}
+\textbf{\color{corMath}\faSuperscript\ Passo 1 -- Escrever a integral:}
+
+\[
+  T_{\text{média}}
+  = \int_0^1\!\!\int_0^1
+    \Bigl[\,60 + 100\,e^{-\frac{(x-0{,}5)^2+(y-0{,}5)^2}{0{,}02}}\,\Bigr]
+    \,\mathrm{d}x\,\mathrm{d}y
+\]
+
+\textbf{\color{corMath}Passo 2 -- Separar em dois pedaços:}
+
+\[
+  = \underbrace{\int_0^1\!\!\int_0^1 60\,\mathrm{d}x\,\mathrm{d}y}_{=\;60}
+  \;+\;
+  100
+  \cdot
+  \underbrace{\int_0^1 e^{-\frac{(x-0{,}5)^2}{0{,}02}}\,\mathrm{d}x}_{\mathcal{I}}
+  \cdot
+  \underbrace{\int_0^1 e^{-\frac{(y-0{,}5)^2}{0{,}02}}\,\mathrm{d}y}_{=\;\mathcal{I}}
+\]
+
+{\small\color{gray}\textbf{Por quê separar?} O exponencial é produto de uma função só
+de $x$ por uma só de $y$. Integral separável = produto das integrais. Cada uma vira
+a mesma $\mathcal{I}$ -- menos conta!}
+\end{mathblock}
+
+\begin{fala}
+A parte difícil é calcular $\mathcal{I}$. Ela tem um truque clássico:
+mudança de variável.
+\end{fala}
+
+\begin{mathblock}
+\textbf{\color{corMath}\faSuperscript\ Passo 3 -- Calcular $\mathcal{I}$:}
+
+\begin{align*}
+  \mathcal{I}
+  &= \int_0^1 e^{-(x-0{,}5)^2/0{,}02}\,\mathrm{d}x \\[6pt]
+  &\overset{u\,=\,x-0{,}5}{=}
+    \int_{-0{,}5}^{0{,}5} e^{-u^2/0{,}02}\,\mathrm{d}u \\[6pt]
+  &\overset{t\,=\,u/(0{,}1\sqrt{2})}{=}
+    0{,}1\sqrt{2}
+    \int_{-3{,}54}^{3{,}54} e^{-t^2}\,\mathrm{d}t
+    \;\approx\;
+    0{,}1\sqrt{2}\cdot\sqrt{\pi}
+    = 0{,}1\sqrt{2\pi}
+\end{align*}
+
+{\small\color{gray}$\text{erf}(3{,}54) \approx 1{,}0000$ -- podemos estender para
+$\pm\infty$ sem remorso matemático.}
+
+\[
+  \mathcal{I} \approx 0{,}1 \times 2{,}507 = \mathbf{0{,}2507}
+\]
+
+\textbf{\color{corMath}Passo 4 -- Resultado final:}
+
+\[
+  T_{\text{média}}
+  = 60 + 100 \cdot (0{,}2507)^2
+  = 60 + 100 \times 0{,}06285
+  \qquad
+  \boxed{\;T_{\text{média}} \approx 66{,}28\,\text{\textdegree C}\;}
+\]
+\end{mathblock}
+
+\begin{visual}
+\faFilm\ O número 66,28 {\textdegree}C aparece em destaque no heatmap.
+Seta para o pico: ``HOTSPOT: 160 {\textdegree}C''. Seta para a média: ``MÉDIA: 66,28 {\textdegree}C''.
+Diferença de 94 {\textdegree}C destacada em vermelho.
+\end{visual}
+
+\ferramenta{WolframAlpha -- validação da integral dupla}
+\begin{lstlisting}[language=bash]
+integrate (60 + 100 * exp(-((x-0.5)^2 + (y-0.5)^2)/0.02)) dx dy from x=0 to 1, y=0 to 1
+\end{lstlisting}
+
+\ferramenta{SciPy -- verificação numérica}
+\begin{lstlisting}[caption={Integral dupla com SciPy}, language=Python]
+from scipy.integrate import dblquad
+import numpy as np
+
+def T(y, x):
+    return 60 + 100*np.exp(-((x-0.5)**2 + (y-0.5)**2) / 0.02)
+
+resultado, erro = dblquad(T, 0, 1, lambda x: 0, lambda x: 1)
+print(f"T_media = {resultado:.4f} C")
+print(f"Erro    = {erro:.2e}")
+\end{lstlisting}
+
+% ─────────────────────────────────────────────────────────────
+\subsection{2.4 -- O que esse número significa?}
+\tempo{8:00 -- 10:00}
+% ─────────────────────────────────────────────────────────────
+
+\begin{fala}
+Sessenta e seis vírgula vinte e oito graus. Parece OK, né?
+Mas espera -- o hotspot estava em 160 graus!
+\end{fala}
+
+\begin{fala}
+A temperatura média mascara o perigo. A \textbf{temperatura de junção}
+de um processador típico fica entre 100 e 125 graus.
+Nosso hotspot ultrapassa isso facilmente.
+\end{fala}
+
+\begin{visual}
+\faFilm\ Termômetro animado com três marcas coloridas:
+\textcolor{ForestGreen}{66,28 {\textdegree}C -- média (OK)} /
+\textcolor{Orange}{100 {\textdegree}C -- limite} /
+\textcolor{corAlerta}{160 {\textdegree}C -- hotspot (PERIGO!)}.
+Sirene animada pisca ao lado do 160 {\textdegree}C.
+\end{visual}
+
+\begin{fala}
+Sem a integral dupla, um sensor único poderia estar medindo qualquer
+um desses valores e nos dando uma visão completamente errada.
+A integral dupla é o \textbf{raio-X da pastilha de silício}.
+\end{fala}
+
+\begin{tela}
+\faDesktop\
+\begin{center}
+\large\itshape
+``A integral dupla não é exercício de cálculo.\\
+É diagnóstico. É prevenção.''
+\end{center}
+\end{tela}
