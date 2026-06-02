@@ -1,0 +1,19 @@
+% 2. Introdução
+% A introdução deve apresentar:
+% - o tema escolhido;
+% - o contexto da aplicação;
+% - o problema que será estudado;
+% - a importância do assunto;
+% - e os objetivos do trabalho.
+% O grupo deve contextualizar o leitor antes de iniciar os cálculos ou explicações técnicas.
+
+\section{Introdução}
+% o tema escolhido;
+% apêndice livro transcal info material
+O calor é, silenciosamente, um dos maiores inimigos dos sistemas computacionais modernos. A Lei de Moore previu, e durante décadas sustentou, que a cada dois anos, testemunharíamos a duplicação do número de transistores em uma mesma área de chip, ou seja, maior capacidade de processamento dado um mesmo espaço; Como consequência direta da maior densidade de potência, temos o calor, o resultado prático disso são processadores que esquentam cada vez mais. Podendo atingir temperaturas acima dos $90^{\circ}C$ nos pontos quentes (hotspots) do chip, temperatura o suficiente até mesmo para cozinhar alimentos sobre a superfície do mesmo \cite{cpucook}.
+
+No paradigma da computação clássica, as consequências desse calor se manifestam em algumas frentes, como o \textit{thermal throttling}, que descreve a redução forçada de desempenho para proteção do hardware; degradação do sinal e, em casos extremos, falha permanente do componente. 
+
+No paradigma da computação quântica, o problema é ainda mais sensível para as suas  unidades fundamentais de informação quântica, denominados qubits, que para manter a coerência dessa mesma unidade, precisam operar o mais próximo possível do zero absoluto ($-273,15^{\circ}C$), pois qualquer agitação térmica destrói o delicado estado de superposição quântica.
+
+O trabalho investiga, por meio das ferramentas do Cálculo III, como modelar e quantificar o impacto térmico em ambos os paradigmas computacionais. Especificamente, utilizamos integrais duplas para calcular a temperatura média de um processador clássico, e integrais triplas em coordenadas esféricas para quantificar o "volume de incerteza" introduzido pelo calor no espaço de estados de um qubit.

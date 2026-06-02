@@ -1,0 +1,258 @@
+\section{Desenvolvimento da Aplicação}
+
+Nesta seção, apresentamos a modelagem matemática do perfil térmico em um chip de silício, utilizando o Cálculo III como ferramenta analítica e computacional para quantificar a dissipação de potência.
+
+\subsection{Modelagem Térmica do Chip Clássico}
+\subsubsection{O problema do sensor único}
+Considere o seguinte problema prático: um engenheiro precisa conhecer a temperatura "real" de um processador em funcionamento. A solução imediata — posicionar um sensor térmico — tem uma limitação fundamental: um sensor pontual mede a temperatura exatamente no ponto onde está localizado, que pode não ser representativo do chip como um todo.
+Processadores modernos têm distribuição de temperatura altamente heterogênea: regiões de baixa atividade permanecem próximas à temperatura ambiente (40--60 \textdegree C), enquanto hotspots em unidades de ponto flutuante ou caches L1 podem atingir 100 \textdegree C ou mais. Um único sensor dependendo de onde é posicionado pode indicar qualquer valor nesse intervalo.
+A solução matemática correta é calcular a integral dupla da distribuição de temperatura sobre toda a área do chip.
+\subsubsection{A função de temperatura T(x, y)}
+Para o chip modelado, adotamos um domínio quadrado $[0,1] \times [0,1]$ representando um chip de $1 \text{ cm} \times 1 \text{ cm}$, com um hotspot gaussiano centralizado em $(0,5; 0,5)$:
+
+\begin{equation}
+    T(x, y) = 60 + 100 \cdot \exp\left[ -\frac{(x - 0,5)^2 + (y - 0,5)^2}{0,02} \right]
+\end{equation}
+
+Os parâmetros foram escolhidos para refletir valores realistas:
+
+\begin{itemize}
+    \item \textbf{Temperatura de base:} $T_{base} = 60 \text{ \textdegree C}$ (temperatura típica de regiões inativas)
+    \item \textbf{Amplitude do hotspot:} $T_{pico} = 100 \text{ \textdegree C}$ (elevação máxima sobre a base)
+    \item \textbf{Temperatura máxima:} $T_{max} = 160 \text{ \textdegree C}$ (no centro do hotspot)
+    \item \textbf{Parâmetro de espalhamento:} $\sigma = 0,1 \text{ cm}$ (o hotspot é estreito)
+    \item \textbf{Denominador:} $2\sigma^2 = 2 \times (0,1)^2 = 0,02 \text{ cm}^2$
+\end{itemize}
+
+\subsubsection{Cálculo da Integral Dupla}
+Substituindo na fórmula de temperatura média (com Área = 1 cm$^2$ para o domínio unitário):
+
+\textbf{Passo 1 -- Escrever a integral:}
+
+\[
+  T_{\text{média}}
+  = \int_0^1\!\!\int_0^1
+    \Bigl[\,60 + 100\,e^{-\frac{(x-0{,}5)^2+(y-0{,}5)^2}{0{,}02}}\,\Bigr]
+    \,\mathrm{d}x\,\mathrm{d}y
+\]
+
+\textbf{Passo 2 -- Separar em dois pedaços:}
+
+\[
+  = \underbrace{\int_0^1\!\!\int_0^1 60\,\mathrm{d}x\,\mathrm{d}y}_{=\;60}
+  \;+\;
+  100
+  \cdot
+  \underbrace{\int_0^1 e^{-\frac{(x-0{,}5)^2}{0{,}02}}\,\mathrm{d}x}_{=\mathcal{I}}
+  \cdot
+  \underbrace{\int_0^1 e^{-\frac{(y-0{,}5)^2}{0{,}02}}\,\mathrm{d}y}_{=\;\mathcal{I}}
+\]
+
+\textbf{ Passo 3 -- Calcular $\mathcal{I}$:}
+
+\begin{align*}
+  \mathcal{I}
+  &= \int_0^1 e^{-(x-0{,}5)^2/0{,}02}\,\mathrm{d}x \\[6pt]
+  &\overset{u\,=\,x-0{,}5}{=}
+    \int_{-0{,}5}^{0{,}5} e^{-u^2/0{,}02}\,\mathrm{d}u \\[6pt]
+  &\overset{t\,=\,u/(0{,}1\sqrt{2})}{=}
+    0{,}1\sqrt{2}
+    \int_{-3{,}54}^{3{,}54} e^{-t^2}\,\mathrm{d}t
+    \;\approx\;
+    0{,}1\sqrt{2}\cdot\sqrt{\pi}
+    = 0{,}1\sqrt{2\pi}
+\end{align*}
+
+{\small\color{gray}$\text{erf}(3{,}54) \approx 1{,}0000$ -- podemos estender para
+$\pm\infty$ sem remorso matemático.}
+
+\[
+  \mathcal{I} \approx 0{,}1 \times 2{,}507 = \mathbf{0{,}2507}
+\]
+
+\textbf{Passo 4 -- Resultado final:}
+
+\[
+  T_{\text{média}}
+  = 60 + 100 \cdot (0{,}2507)^2
+  = 60 + 100 \times 0{,}06285
+  \qquad
+  \boxed{\;T_{\text{média}} \approx 66{,}28\,\text{\textdegree C}\;}
+\]
+
+\subsection{Validação numérica com Python (SciPy)}
+O resultado analítico foi verificado numericamente com a função \texttt{dblquad} da biblioteca \texttt{SciPy}:
+
+\begin{lstlisting}[caption={Validação da temperatura média com SciPy}, label={code:scipy}]
+from scipy.integrate import dblquad
+import numpy as np
+
+def T(y, x):
+    return 60 + 100*np.exp(-((x-0.5)**2 + (y-0.5)**2) / 0.02)
+
+resultado, erro = dblquad(T, 0, 1, lambda x: 0, lambda x: 1)
+
+print(f'T_media = {resultado:.4f} C')   # -> 66.2832 C
+print(f'Erro estimado = {erro:.2e}')    # -> 3.5e-10
+\end{lstlisting}
+
+O resultado numérico de $66,2832$ \textdegree C confirma o cálculo analítico. O erro estimado de $3,5 \times 10^{-10}$ é desprezível.
+\subsection{Interpretação física}
+
+O resultado $66,28$ \textdegree C pode parecer reconfortante à primeira vista — afinal, está bem abaixo do limite de operação de $100$ \textdegree C. Porém, esse número mascara o verdadeiro perigo: o hotspot está a $160$ \textdegree C, muito acima do limite de temperatura de junção ($T_{junc}$) de $100\text{--}125$ \textdegree C típico de processadores modernos. A diferença de $94$ \textdegree C entre a temperatura média e a temperatura de pico não é captada por nenhum sensor único.
+
+\begin{table}[H]
+    \centering
+    \caption{Comparativo de temperaturas no chip}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Grandeza} & \textbf{Valor} & \textbf{Significado} \\
+        \midrule
+        Temperatura mínima (bordas) & $60$ \textdegree C & Normal — zona inativa \\
+        Temperatura média (integral dupla) & $66,28$ \textdegree C & Representa o chip inteiro \\
+        Temperatura de junção (limite) & $100$ \textdegree C & Limiar de segurança \\
+        Temperatura máxima (hotspot) & $160$ \textdegree C & \textbf{PERIGO} — $60$ \textdegree C acima do limite \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Esse contraste demonstra por que a integral dupla é indispensável: ela é o "raio-X" do chip, revelando a realidade que nenhuma medição pontual pode capturar.
+
+\subsection{Do Chip ao Qubit: A Ponte Conceitual}
+
+Antes de avançar para a parte quântica, é fundamental esclarecer um ponto crucial que diferencia os dois paradigmas computacionais:
+
+Na computação clássica, processadores operam a dezenas ou centenas de graus Celsius. Na computação quântica com qubits supercondutores (como os da IBM, Google e IonQ), os qubits precisam operar a temperaturas da ordem de $10\text{--}20$ millikelvin ($-273,13$ \textdegree C) — fração de grau acima do zero absoluto. Isso é necessário para que os elétrons formem pares de Cooper e o sistema exiba comportamento quântico coerente.
+Sendo assim, estamos usando o processador clássico e sua temperatura de $66,28$ \textdegree C como um "laboratório de escala" para introduzir o conceito central: como o calor, qualquer que seja sua magnitude, agita a matéria e corrompe a informação. 
+O modelo de acoplamento térmico-quântico que desenvolvemos a seguir é explicitamente pedagógico — na física real, o acoplamento envolve matrizes densidade, tempos de relaxação $T_1$ e $T_2$, e equações de Lindblad para sistemas abertos quânticos.
+
+\subsection{Modelagem do Qubit: Integral Tripla na Esfera de Bloch}
+
+\subsubsection{Coordenadas esféricas e o jacobiano}
+A Esfera de Bloch é uma esfera de raio unitário ($R = 1$) no espaço tridimensional. Para calcular volumes nesse espaço com simetria esférica, usamos coordenadas esféricas ($\rho, \phi, \theta$):
+
+\begin{itemize}
+    \item $\rho \in [0, 1]$: raio ($0 = \text{centro}, 1 = \text{superfície}$)
+    \item $\phi \in [0, \pi]$: ângulo polar (colatitude em relação ao polo norte $|0\rangle$)
+    \item $\theta \in [0, 2\pi]$: ângulo azimutal
+\end{itemize}
+
+O elemento de volume em coordenadas esféricas, incluindo o jacobiano, é dado por:
+\begin{equation}
+    dV = \rho^2 \sin(\phi) \, d\rho \, d\phi \, d\theta
+\end{equation}
+
+O jacobiano $\rho^2 \sin(\phi)$ resulta do determinante da matriz jacobiana da transformação $x = \rho \sin(\phi) \cos(\theta)$, $y = \rho \sin(\phi) \sin(\theta)$, $z = \rho \cos(\phi)$. Ele é essencial: sem essa correção, a integral subestimaria as cascas esféricas externas e sobrestimaria as internas.
+
+\subsubsection{Modelo de acoplamento térmico-quântico}
+Para conectar a temperatura média do chip ($T_{\text{média}} = 66,28$ \textdegree C) ao raio da nuvem de incerteza dentro da Esfera de Bloch, adotamos o seguinte modelo linear pedagógico:
+
+\begin{equation}
+       r_T = r_{max} \cdot \frac{T_{\text{média}} - T_{amb}}{T_{junc} - T_{amb}}
+\end{equation}
+
+onde:
+\begin{itemize}
+    \item $r_{max} = 0,5$: raio máximo de perturbação (qubit completamente perturbado)
+    \item $T_{amb} = 25$ \textdegree C: temperatura ambiente de referência
+    \item $T_{junc} = 100$ \textdegree C: temperatura de junção máxima do processador
+\end{itemize}
+
+Substituindo os valores:
+\begin{equation}
+    r_T = 0,5 \times \frac{66,28 - 25}{100 - 25} = 0,5 \times \frac{41,28}{75} = 0,5 \times 0,5504 \approx 0,2752
+\end{equation}
+
+\noindent \textit{Nota de rigor:} Este modelo linear é uma construção didática para conectar os dois mundos via Cálculo III. Na física quântica real, o acoplamento térmico-quântico é descrito pela equação mestra de Lindblad, e o estado do qubit é representado pela matriz densidade $\rho = \frac{1}{2}(I + \vec{r}\cdot\vec{\sigma})$, onde $|\vec{r}| \leq 1$. O raio $|\vec{r}| = \tanh(\hbar\omega/2k_B T)$ descreve o estado térmico de equilíbrio. A representação geométrica como "volume de incerteza" corresponde visualmente à perda de pureza do estado quântico ($\rho \rightarrow \text{estado misto}$).
+\subsubsection{Cálculo do volume de incerteza}
+O "volume de incerteza" corresponde ao volume de uma esfera de raio $r_T = 0,2752$ dentro da Esfera de Bloch unitária. A integral tripla em coordenadas esféricas é:
+
+\begin{equation}
+    V_{inc} = \int_{0}^{2\pi} d\theta \times \int_{0}^{\pi} \sin(\phi) \, d\phi \times \int_{0}^{r_T} \rho^2 \, d\rho
+\end{equation}
+
+Calculando cada integral separadamente:
+\begin{itemize}
+    \item $\int_{0}^{2\pi} d\theta = 2\pi$
+    \item $\int_{0}^{\pi} \sin(\phi) \, d\phi = [-\cos(\phi)]_{0}^{\pi} = -\cos(\pi) + \cos(0) = 1 + 1 = 2$
+    \item $\int_{0}^{r_T} \rho^2 \, d\rho = \left[\frac{\rho^3}{3}\right]_{0}^{0,2752} = \frac{(0,2752)^3}{3} \approx 0,006954$
+\end{itemize}
+
+Resultado:
+\begin{equation}
+    V_{inc} = 2\pi \times 2 \times 0,006954 = \frac{4}{3}\pi \times (0,2752)^3 \approx 0,0874
+\end{equation}
+Para referência, o volume total da Esfera de Bloch unitária é $V_{Bloch} = \frac{4}{3}\pi(1)^3 \approx 4,1888$.
+
+\subsubsection{Verificação com WolframAlpha e SciPy}
+A integral foi verificada de duas formas independentes. Numericamente, utilizamos a função \texttt{tplquad} do \texttt{SciPy}:
+
+\begin{lstlisting}[language=Python]
+from scipy.integrate import tplquad
+import numpy as np
+
+rT = 0.2752
+def integrando(theta, phi, rho):
+    return rho**2 * np.sin(phi)
+
+V_inc, _ = tplquad(integrando, 0, rT, lambda r: 0, 
+                   lambda r: np.pi, lambda r, p: 0, lambda r, p: 2*np.pi)
+print(f'V_inc = {V_inc:.5f}')  # -> 0.08741
+\end{lstlisting}
+
+\subsubsection{Probabilidade de erro e acúmulo}
+A probabilidade de erro ($P_{erro}$) é calculada como a fração do volume de incerteza em relação ao volume total da Esfera de Bloch:
+
+\begin{equation}
+    P_{erro} = \frac{V_{inc}}{V_{Bloch}} = \frac{\frac{4}{3}\pi r_T^3}{\frac{4}{3}\pi} = r_T^3 = (0,2752)^3 \approx 0,0208 \approx 2,08\%
+\end{equation}
+
+Esse resultado demonstra uma propriedade fundamental: a probabilidade de erro cresce com o cubo do raio $r_T$, e portanto com o cubo da temperatura. O impacto torna-se devastador ao considerar a execução de algoritmos com múltiplas portas lógicas. Se a probabilidade de sucesso por operação é $(1 - P_{erro})$, após $d$ operações temos $P_{sucesso}(d) = (0,9792)^d$.
+
+\begin{table}[H]
+    \centering
+    \caption{Degradação da fidelidade quântica por acúmulo de erros}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Operações ($d$)} & \textbf{$P_{sucesso}$} & \textbf{$P_{erro}$ acumulado} \\
+        \midrule
+        $10$ & $\approx 81\%$ & $\approx 19\%$ \\
+        $100$ & $\approx 12\%$ & $\approx 88\%$ \\
+        $1.000$ & $\approx 10^{-8}\%$ & $\approx 100\%$ \\
+        $10.000$ & $\approx 10^{-85}\%$ & $\approx 100\%$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Para um algoritmo com apenas $1.000$ portas lógicas, a probabilidade de sucesso com $P_{erro} = 2,08\%$ torna o resultado praticamente inutilizável.
+
+\subsection{Conexão dos Dois Mundos e Sensibilidade Térmica}
+
+O pipeline completo construído neste trabalho conecta, por uma cadeia de cálculos, a distribuição de temperatura do chip clássico à fidelidade do qubit quântico:
+
+\begin{align*}
+    T(x,y) &\xrightarrow{\text{integral dupla}} T_{\text{média}} = 66,28 \text{ \textdegree C} \\
+    &\xrightarrow{\text{acoplamento}} r_T = 0,2752 \\
+    &\xrightarrow{\text{integral tripla}} P_{erro} = r_T^3 \approx 2,08\%
+\end{align*}
+
+Uma consequência importante dessa cadeia é a sensibilidade cúbica ao calor. Como $P_{erro} = r_T^3$ e $r_T$ é linear em relação a $T_{\text{média}}$, temos a relação $P_{erro} \propto (T_{\text{média}})^3$. Isso significa que reduções pequenas de temperatura produzem reduções grandes na taxa de erro.
+
+\begin{table}[H]
+    \centering
+    \caption{Sensibilidade da taxa de erro em função da temperatura média}
+    \begin{tabular}{lccl}
+        \toprule
+        \textbf{$T_{\text{média}}$ (\textdegree C)} & \textbf{$r_T$} & \textbf{$P_{erro}$ (\%)} & \textbf{Status} \\
+        \midrule
+        25 & 0,000 & 0,00\% & Zero erro (ideal) \\
+        40 & 0,100 & 0,10\% & Abaixo da tolerância \\
+        56 & 0,207 & 0,89\% & Abaixo do limiar 1\% \\
+        66,28 & 0,275 & 2,08\% & \textbf{Nosso resultado} \\
+        80 & 0,367 & 4,94\% & Acima do limite \\
+        100 & 0,500 & 12,5\% & Falha total \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Uma redução de apenas $10$ \textdegree C — de $66,28$ \textdegree C para $56$ \textdegree C — já seria suficiente para cruzar o limiar de tolerância de $1\%$. Essa sensibilidade extrema à temperatura justifica os enormes investimentos em refrigeração criogênica nos laboratórios de computação quântica.

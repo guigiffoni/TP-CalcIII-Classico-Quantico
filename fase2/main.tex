@@ -4,6 +4,26 @@
 \usepackage[T1]{fontenc}
 \usepackage[portuguese]{babel}
 \usepackage{geometry}
+\usepackage{amsmath, amssymb} % Para fórmulas matemáticas
+\usepackage{graphicx}         % Para inserir imagens e gráficos
+\usepackage{listings}         % Para formatar blocos de código
+\usepackage{xcolor}  
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{float}
+% Configuração para o código Python ficar bonito
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    captionpos=b
+}
 
 \geometry{a4paper, top=3cm, right=2cm, bottom=2cm, left=3cm}
 
@@ -15,15 +35,8 @@
     }
 }
 \author{
-    Ana Luiza Ribas Ponciano \\
-    Ana Paula Lopes Cabral \\
-    Filipe Quaresma Pereira \\
     Guilherme Amaral Giffoni \\
-    João Paulo Gomes dos Santos \\
     Kathleen Rodrigues Leite Barbosa \\
-    Lucas Medeiros Bougleux \\
-    Márcio Mendes Gazzinelli Gomes \\
-    Pedro Mafra Vasconcelos
 }
 
 \begin{document}
@@ -34,7 +47,15 @@ Cálculo III \\
 Professor Dr. Pedro Belchior
 \newpage
 
-\input{partes/2-introducao.tex}
+\input{partes/1-introducao.tex}
 \newpage
+
+\input{partes/2-fundamentacao-teorica.tex}
+\newpage
+
+\input{partes/3-desenvolvimento-a-aplicacao.tex}
+\newpage
+
+\input{partes/6-referencias.tex}
 
 \end{document}
