@@ -1,0 +1,105 @@
+% config-listing-python.tex
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{fancyvrb}
+
+% Cores específicas para Python
+\definecolor{pythonblue}{rgb}{0,0,0.8}
+\definecolor{pythongreen}{rgb}{0,0.6,0}
+\definecolor{pythonred}{rgb}{0.8,0,0}
+\definecolor{pythonpurple}{rgb}{0.58,0,0.82}
+\definecolor{pythonorange}{rgb}{0.8,0.4,0}
+\definecolor{pythongray}{rgb}{0.5,0.5,0.5}
+\definecolor{pythonbackcolour}{rgb}{0.98,0.98,0.95}
+\definecolor{pythoncomment}{rgb}{0.2,0.6,0.2}
+\definecolor{pythonstring}{rgb}{0.8,0.4,0}
+\definecolor{pythonnumber}{rgb}{0.5,0,0.5}
+\definecolor{pythondecorator}{rgb}{0.5,0,0.5}
+
+% Configuração do listing para Python
+\lstdefinelanguage{Python}{
+    morekeywords={
+        % Palavras-chave Python
+        and, as, assert, async, await, break, class, continue, def, del,
+        elif, else, except, False, finally, for, from, global, if, import,
+        in, is, lambda, None, nonlocal, not, or, pass, raise, return,
+        True, try, while, with, yield,
+        % Funções built-in
+        print, len, range, str, int, float, list, dict, tuple, set,
+        open, file, input, format, type, isinstance, issubclass,
+        super, property, classmethod, staticmethod,
+        % Exceções
+        ValueError, TypeError, IndexError, KeyError, AttributeError,
+        ImportError, RuntimeError, Exception
+    },
+    morekeywords=[2]{
+        % Decorators
+        @staticmethod, @classmethod, @property, @abstractmethod
+    },
+    morekeywords=[3]{
+        % Módulos comuns (opcional)
+        numpy, pandas, matplotlib, sklearn, tensorflow, torch
+    },
+    sensitive=true,
+    morecomment=[l]{\#},
+    morecomment=[s]{"""}{"""},
+    morecomment=[s]{'''}{'''},
+    morestring=[b]',
+    morestring=[b]",
+    morestring=[b]"""
+}
+
+% Configurações de estilo
+\lstset{
+    language=Python,
+    backgroundcolor=\color{pythonbackcolour},
+    basicstyle=\ttfamily\small,
+    keywordstyle=[1]\color{pythonblue}\bfseries,
+    keywordstyle=[2]\color{pythondecorator},
+    keywordstyle=[3]\color{pythonpurple},
+    commentstyle=\color{pythoncomment}\itshape,
+    stringstyle=\color{pythonstring},
+    numberstyle=\tiny\color{pythongray},
+    numbers=left,
+    numbersep=5pt,
+    breaklines=true,
+    breakatwhitespace=true,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=single,
+    frameround=tttt,
+    rulecolor=\color{pythongray},
+    xleftmargin=20pt,
+    xrightmargin=10pt,
+    captionpos=b,
+    keepspaces=true,
+    extendedchars=true,
+    literate=                     % Suporte a acentos
+        {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+        {ã}{{\~a}}1 {õ}{{\~o}}1 {â}{{\^a}}1 {ê}{{\^e}}1 {ô}{{\^o}}1
+        {ç}{{\c{c}}}1 {Ç}{{\c{C}}}1
+        {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+        {Ã}{{\~A}}1 {Õ}{{\~O}}1 {Â}{{\^A}}1 {Ê}{{\^E}}1 {Ô}{{\^O}}1
+        {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+        {À}{{\`A}}1 {È}{{\`E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+        {ü}{{\"u}}1 {Ü}{{\"U}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1
+        {°}{{$^{\circ}$}}1
+}
+
+% Configuração de caption colorida
+\usepackage{caption}
+\DeclareCaptionFont{pythoncaption}{\color{white}}
+\DeclareCaptionFormat{pythonlisting}{%
+    \colorbox[rgb]{0.2,0.4,0.6}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=pythonlisting,labelfont=pythoncaption,textfont=pythoncaption, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+% Comando para fácil inclusão de código Python
+\newcommand{\pythoncode}[2][]{%
+    \lstinputlisting[language=Python, #1]{#2}%
+}

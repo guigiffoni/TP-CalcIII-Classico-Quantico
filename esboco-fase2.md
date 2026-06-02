@@ -22,6 +22,8 @@ Dado a quantidade de membros no grupo (10 pessoas), decidimos que seria melhor q
 De forma que os membros ficassem distribuídos como destacado abaixo:
 
 ### Computação Clássica
+- Ana Luiza Ribas Ponciano
+- Ana Paula Lopes Cabral
 - João Paulo Gomes dos Santos
 - Márcio Mendes Gazzinelli Gomes
 - Pedro Mafra Vasconcelos
