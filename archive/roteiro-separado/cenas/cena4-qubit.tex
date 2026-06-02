@@ -1,0 +1,158 @@
+% ══════════════════════════════════════════════════════════════
+\section{CENA 4 --- O Qubit que Treme: Integral Tripla \hfill \normalfont\small\color{corTempo}12:00 -- 18:00}
+% ══════════════════════════════════════════════════════════════
+
+\subsection{4.1 -- Coordenadas esféricas e o jacobiano}
+\tempo{12:00 -- 14:00}
+
+\begin{fala}
+A nuvem de incerteza vive dentro de uma esfera. Para calcular volumes em 3D,
+o sistema de coordenadas mais natural é o \textbf{esférico}: raio~$\rho$,
+ângulo polar~$\phi$ e ângulo azimutal~$\theta$.
+\end{fala}
+
+\begin{visual}
+\faFilm\ Eixos cartesianos aparecem. Depois os eixos esféricos $\rho$, $\phi$, $\theta$
+surgem sobrepostos. Uma fatia da esfera fica destacada mostrando o elemento de volume.
+\end{visual}
+
+\begin{mathblock}
+\textbf{\color{corMath}\faSuperscript\ A integral tripla em coordenadas esféricas:}
+
+\[
+  V_{\text{incerteza}}
+  = \iiint_{\text{nuvem}}
+    \underbrace{\rho^2 \sin\phi}_{\text{jacobiano}}
+    \,\mathrm{d}\rho\,\mathrm{d}\phi\,\mathrm{d}\theta
+\]
+
+{\small\color{gray}
+\textbf{Por que o jacobiano $\rho^2\sin\phi$?} Ao trocar coordenadas cartesianas
+$(x,y,z)$ por esféricas $(\rho,\phi,\theta)$, o elemento de volume se transforma.
+$\rho^2\sin\phi$ é a correção que garante que a integral continue medindo volume
+correto. Sem ele, a conta estaria errada.}
+\end{mathblock}
+
+\ferramenta{WolframAlpha -- integral tripla com jacobiano}
+\begin{tela}
+\faDesktop\ Query:
+\begin{lstlisting}[language=bash]
+integrate rho^2 * sin(phi), rho=0 to 0.2752, phi=0 to pi, theta=0 to 2pi
+\end{lstlisting}
+Resposta: $\approx 0{,}0874$ \checkmark
+\end{tela}
+
+\subsection{4.2 -- Conectando temperatura e incerteza}
+\tempo{14:00 -- 15:00}
+
+\begin{fala}
+Na física dura, o calor ataca o tempo de vida do qubit, o famoso \textbf{tempo de relaxação} ($T_1$). A chance de erro real depende de quanto tempo a operação ($\tau$) dura em relação a essa vida útil.
+\end{fala}
+
+\begin{tela}
+\faDesktop\ \textbf{Física real:} $P_{\text{erro}} = \frac{\tau}{T_1}$
+\end{tela}
+
+\begin{fala}
+Para modelar como o calor degrada o qubit, usaremos aqui um \textbf{modelo de acoplamento térmico linear}. Na física real, o acoplamento é via matrizes densidade e tempo de relaxação $T_1$, mas este modelo geométrico captura didaticamente a essência da decoerência térmica que estamos estudando hoje.
+\end{fala}
+
+\begin{mathblock}
+\textbf{\color{corMath}\faSuperscript\ Modelo de acoplamento térmico-quântico:}
+
+\[
+  r_T
+  \;=\;
+  r_{\max}
+  \cdot
+  \frac{T_{\text{média}} - T_{\text{amb}}}{T_{\text{junc}} - T_{\text{amb}}}
+  \;=\;
+  0{,}5 \cdot \frac{66{,}28 - 25}{100 - 25}
+  \;=\;
+  0{,}5 \cdot \frac{41{,}28}{75}
+  \qquad
+  \boxed{\;r_T \approx 0{,}2752\;}
+\]
+\end{mathblock}
+
+\begin{fala}
+O raio de 0,2752 significa que o calor empurra o estado quântico até 27,5\%
+do raio da Esfera de Bloch. Não é desprezível.
+\end{fala}
+
+\subsection{4.3 -- Calculando o volume de incerteza}
+\tempo{15:00 -- 17:00}
+
+\begin{fala}
+Vamos visualizar essa falha como um "volume de incerteza" na Esfera de Bloch. Embora na física rigorosa o ruído térmico seja descrito pela perda de pureza do estado quântico, essa representação geométrica é uma das ferramentas mais poderosas para visualizarmos, através do cálculo, o impacto do calor na fidelidade do qubit.
+\end{fala}
+
+\begin{mathblock}
+\textbf{\color{corMath}\faSuperscript\ Volume da nuvem (integral tripla):}
+\[
+  V_{\text{inc}}
+  = 2\pi \cdot 2 \cdot \int_0^{r_T}\rho^2\,\mathrm{d}\rho
+  = \tfrac{4}{3}\pi\,(0{,}2752)^3
+  \qquad
+  \boxed{\;V_{\text{inc}} \approx 0{,}0874\;}
+\]
+{\small \textbf{Nota de rigor:} Esta modelagem geométrica (volume de incerteza) 
+corresponde visualmente à perda de pureza do estado quântico ($\rho \to$ estado misto) 
+devido ao acoplamento com o reservatório térmico.}
+\end{mathblock}
+
+\ferramenta{Visualização 3D: Esfera de Bloch e Nuvem de Incerteza}
+\begin{lstlisting}[caption={Código para visualização 3D}]
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+# 1. Esfera de Bloch (O recipiente sólido e fosco)
+u, v = np.mgrid[0:2*np.pi:30j, 0:np.pi:20j]
+x = np.cos(u)*np.sin(v)
+y = np.sin(u)*np.sin(v)
+z = np.cos(v)
+ax.plot_surface(x, y, z, color='royalblue', alpha=0.15, shade=True)
+ax.plot_wireframe(x, y, z, color="royalblue", alpha=0.2, linewidth=0.5)
+
+# 2. Nuvem de Incerteza (O erro)
+rT = 0.2752
+n_pontos = 1000
+phi = np.random.uniform(0, 2*np.pi, n_pontos)
+costheta = np.random.uniform(-1, 1, n_pontos)
+u = np.random.uniform(0, 1, n_pontos)
+theta = np.arccos(costheta)
+r = rT * u**(1/3)
+x_n = r * np.sin(theta) * np.cos(phi)
+y_n = r * np.sin(theta) * np.sin(phi)
+z_n = r * np.cos(theta) + 1 
+ax.scatter(x_n, y_n, z_n, color='orange', alpha=0.4, s=2)
+
+ax.set_box_aspect([1,1,1]); ax.view_init(elev=20, azim=45)
+plt.show()
+\end{lstlisting}
+
+\subsection{4.4 -- A probabilidade de erro}
+\tempo{17:00 -- 18:00}
+
+\begin{mathblock}
+\textbf{\color{corMath}\faSuperscript\ Probabilidade de bit-flip:}
+\[
+  P_{\text{erro}} = r_T^3 \approx 2{,}08\%
+\]
+\end{mathblock}
+
+\begin{fala}
+Dois vírgula zero oito por cento. Parece pequeno? Na computação quântica real, a probabilidade de um algoritmo funcionar depois de várias operações despenca exponencialmente.
+\end{fala}
+
+\begin{tela}
+\faDesktop\ \textbf{Acúmulo de Erros (d operações):}
+\[ P_{\text{sucesso}} = (1 - P_{\text{erro}})^d \]
+\end{tela}
+
+\begin{fala}
+Se você rodar um algoritmo com 1000 portas lógicas ($d = 1000$), a chance de sucesso com esse nosso erro de 2,08\% é de absurdos \textbf{0,00000007\%}. O erro se acumula. O resultado fica completamente inutilizável.
+\end{fala}
