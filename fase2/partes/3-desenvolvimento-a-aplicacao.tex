@@ -80,7 +80,7 @@ $\pm\infty$ sem remorso matemático.}
   \boxed{\;T_{\text{média}} \approx 66{,}28\,\text{\textdegree C}\;}
 \]
 
-\subsection{Validação numérica com Python (SciPy)}
+\subsection{Validação numérica com Python (SciPy)\cite{numpy}}
 O resultado analítico foi verificado numericamente com a função \texttt{dblquad} da biblioteca \texttt{SciPy}:
 
 \begin{lstlisting}[caption={Validação da temperatura média com SciPy}, label={code:scipy}]
@@ -184,7 +184,7 @@ Resultado:
 \end{equation}
 Para referência, o volume total da Esfera de Bloch unitária é $V_{Bloch} = \frac{4}{3}\pi(1)^3 \approx 4,1888$.
 
-\subsubsection{Verificação com WolframAlpha e SciPy}
+\subsubsection{Verificação com WolframAlpha\cite{wolframalpha} e SciPy\cite{scipy}}
 A integral foi verificada de duas formas independentes. Numericamente, utilizamos a função \texttt{tplquad} do \texttt{SciPy}:
 
 \begin{lstlisting}[language=Python]
