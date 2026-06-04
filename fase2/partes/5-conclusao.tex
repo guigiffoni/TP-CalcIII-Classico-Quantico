@@ -1,0 +1,17 @@
+\section{Conclusão}
+Este trabalho demonstrou que as integrais múltiplas — ferramentas centrais do Cálculo III — não são construções abstratas, mas instrumentos de medição e diagnóstico fundamentais para problemas físicos reais. Dois domínios aparentemente distantes, a gestão térmica de chips de silício e a decoerência de qubits, foram conectados por uma cadeia de cálculos rigorosa, revelando uma estrutura matemática comum.
+
+Os principais resultados obtidos foram:
+
+\begin{itemize}
+    \item \textbf{Análise Térmica:} A temperatura média real do chip com \textit{hotspot} gaussiano é $T_{\text{média}} = 66,28^{\circ}C$, resultado confirmado tanto analiticamente (via mudança de variável gaussiana) quanto numericamente (utilizando a biblioteca SciPy \textit{dblquad}, com erro de $3,5 \times 10^{-10}$).
+    \item \textbf{Modelagem de Incerteza:} O volume de incerteza quântica correspondente é $V_{inc} \approx 0,0874$, o que equivale a uma esfera de raio $r_T = 0,2752$ dentro da Esfera de Bloch.
+    \item \textbf{Impacto na Fidelidade:} A probabilidade de erro quântico induzido termicamente é $P_{erro} \approx 2,08\%$, valor aproximadamente 20 vezes superior ao limiar de tolerância de $0,1\%$ exigido para algoritmos quânticos modernos.
+    \item \textbf{Sensibilidade Térmica:} Demonstrou-se que o erro cresce proporcionalmente ao cubo da temperatura ($P_{erro} \propto T^3$), indicando que reduções de apenas $10^{\circ}C$ podem ser suficientes para cruzar o limiar de operabilidade do sistema.
+\end{itemize}
+
+Do ponto de vista matemático, o trabalho ilustrou a aplicação prática de três técnicas fundamentais do Cálculo III: a separabilidade de integrais duplas para funções produto, a mudança de variável para integrais gaussianas e a decomposição de integrais triplas em coordenadas esféricas, com a aplicação rigorosa do Jacobiano.
+
+Como limitação, destaca-se que, na física real, a relação entre temperatura clássica e decoerência quântica é mediada por fenômenos complexos, como a equação mestre de Lindblad e espectros de ruído $1/f$. O modelo de acoplamento adotado neste estudo constitui, portanto, uma simplificação pedagógica deliberada, voltada à compreensão da aplicabilidade das integrais.
+
+Em suma, a reflexão central deste estudo reside na universalidade do Cálculo: a mesma operação de integração sobre domínios multidimensionais opera tanto na engenharia térmica quanto na mecânica quântica. Conclui-se, assim, que a integração é a ferramenta definitiva para o controle de sistemas complexos: do silício ao \textit{qubit}, o calor é o desafio e o Cálculo é a solução.

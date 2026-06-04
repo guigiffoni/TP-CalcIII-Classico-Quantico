@@ -1,2 +1,6 @@
 fontes/*.pdf
 .~lock*
+*.fls
+*.log
+*.synctex.gz
+*.fdb_latexm
