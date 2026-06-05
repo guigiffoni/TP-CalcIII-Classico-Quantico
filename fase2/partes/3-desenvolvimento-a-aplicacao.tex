@@ -153,6 +153,8 @@ Para conectar a temperatura média do chip ($T_{\text{média}} = 66,28$ \textdeg
        r_T = r_{max} \cdot \frac{T_{\text{média}} - T_{amb}}{T_{junc} - T_{amb}}
 \end{equation}
 
+A escolha de $r_T$ como parâmetro de perturbação encontra respaldo na representação geométrica dos estados quânticos: na formalização da matriz densidade, qualquer estado de um qubit é descrito por $\rho = \frac{1}{2}(I + \vec{r} \cdot \vec{\sigma})$, onde $\vec{r}$ é o vetor de Bloch. Estados puros satisfazem $|\vec{r}| = 1$ (superfície da esfera) e estados mistos satisfazem $|\vec{r}| < 1$ (interior). O acoplamento térmico desloca o estado do qubit da superfície para o interior, reduzindo $|\vec{r}|$. O modelo linear adotado parametriza essa contração de forma proporcional ao excesso térmico normalizado, de modo que $r_T = 0$ em temperatura ambiente (estado ideal) e $r_T = r_{max}$ quando o chip atinge a temperatura de junção (perturbação máxima tolerada).
+
 onde:
 \begin{itemize}
     \item $r_{max} = 0,5$: raio máximo de perturbação (qubit completamente perturbado)
@@ -166,6 +168,7 @@ Substituindo os valores:
 \end{equation}
 
 \noindent \textit{Nota de rigor:} Este modelo linear é uma construção didática para conectar os dois mundos via Cálculo III. Na física quântica real, o acoplamento térmico-quântico é descrito pela equação mestra de Lindblad, e o estado do qubit é representado pela matriz densidade $\rho = \frac{1}{2}(I + \vec{r}\cdot\vec{\sigma})$, onde $|\vec{r}| \leq 1$. O raio $|\vec{r}| = \tanh(\hbar\omega/2k_B T)$ descreve o estado térmico de equilíbrio. A representação geométrica como "volume de incerteza" corresponde visualmente à perda de pureza do estado quântico ($\rho \rightarrow \text{estado misto}$).
+
 \subsubsection{Cálculo do volume de incerteza}
 O "volume de incerteza" corresponde ao volume de uma esfera de raio $r_T = 0,2752$ dentro da Esfera de Bloch unitária. A integral tripla em coordenadas esféricas é:
 
@@ -190,6 +193,13 @@ Para referência, o volume total da Esfera de Bloch unitária é $V_{Bloch} = \f
 A integral foi verificada de duas formas independentes. Numericamente, utilizamos a função \texttt{tplquad} do \texttt{SciPy}:
 
 \lstinputlisting[language=Python]{partes/codigos/grafico-bloch.py}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{fase2/img/esfera-bloch3.png}
+    \caption{Representação da Esfera de Bloch.}
+    \label{fig:esfera-bloch}
+\end{figure}
 
 \subsubsection{Probabilidade de erro e acúmulo}
 A probabilidade de erro ($P_{erro}$) é calculada como a fração do volume de incerteza em relação ao volume total da Esfera de Bloch:
