@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1780688721.49186 "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" "main.pdf" "main" 1780688721.75248 0
-  "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" 1780493418.77227 1474 e821480da0f33b74894202f9bb471fe0 ""
+["pdflatex"] 1780691568.45819 "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" "main.pdf" "main" 1780691568.82735 0
+  "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" 1780691525.48894 1473 e91c8466ed2e36c9fc72126354b8232a ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -121,11 +121,12 @@
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1777593600 43785 66587115382950aca692b5f6e3c2fb74 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1780420156 598296 457966d094285a4003375526bd383d00 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1780420096 3334254 95887a830c391b6dd5611ebb47f852da ""
-  "main.aux" 1780688721.69449 4276 7a2e31a31c9420e7d8033df1795a3fe5 "pdflatex"
-  "main.tex" 1780493418.77227 1474 e821480da0f33b74894202f9bb471fe0 ""
+  "img/hotspot-gaussiano.png" 1780689733.16652 180090 75d055202831695588cca18908e8b03f ""
+  "main.aux" 1780691568.76642 4482 0b48e0a8f20c76f3eb44190630c41b89 "pdflatex"
+  "main.tex" 1780691525.48894 1473 e91c8466ed2e36c9fc72126354b8232a ""
   "partes/1-introducao.tex" 1780684177.50702 2189 a8c74962b7dfc6d34a476bd1fc545711 ""
   "partes/2-fundamentacao-teorica.tex" 1780684278.05606 5145 3c9d2a36ad19cc1b7a925aae8ab2418a ""
-  "partes/3-desenvolvimento-a-aplicacao.tex" 1780688721.05818 13593 95bd616061ab8728ef296d16293ac83d ""
+  "partes/3-desenvolvimento-a-aplicacao.tex" 1780691568.29843 14514 29c288b9c958ec22e6d74036e5ace227 ""
   "partes/4-relacao-video.tex" 1780492974.73784 2427 ff7dbe1c23fbdbe451b55818a9c858f9 ""
   "partes/5-conclusao.tex" 1780493446.93911 2689 16ca028c32ca1931f28eaa2e89abed01 ""
   "partes/6-referencias.tex" 1780681692.89811 1752 500533a3ef9242beee46f5f7fec6903f ""
