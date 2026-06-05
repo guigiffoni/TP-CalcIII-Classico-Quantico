@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1780616219.843 "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" "main.pdf" "main" 1780616220.10348 0
+["pdflatex"] 1780688721.49186 "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" "main.pdf" "main" 1780688721.75248 0
   "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" 1780493418.77227 1474 e821480da0f33b74894202f9bb471fe0 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -121,14 +121,16 @@
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1777593600 43785 66587115382950aca692b5f6e3c2fb74 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1780420156 598296 457966d094285a4003375526bd383d00 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1780420096 3334254 95887a830c391b6dd5611ebb47f852da ""
-  "main.aux" 1780616220.04628 4206 cda7d7fe8630134e88a0a858ac98eb83 "pdflatex"
+  "main.aux" 1780688721.69449 4276 7a2e31a31c9420e7d8033df1795a3fe5 "pdflatex"
   "main.tex" 1780493418.77227 1474 e821480da0f33b74894202f9bb471fe0 ""
-  "partes/1-introducao.tex" 1780616219.4335 2190 c9bbb3dd3d42de9e02c99f68df2814a4 ""
-  "partes/2-fundamentacao-teorica.tex" 1780432244.62929 5149 bc29af5ad4c33404a9aa6be36d3ba5f9 ""
-  "partes/3-desenvolvimento-a-aplicacao.tex" 1780616039.84545 14173 6ceea7e4ed60e161d8cc5b0eb3b66e62 ""
+  "partes/1-introducao.tex" 1780684177.50702 2189 a8c74962b7dfc6d34a476bd1fc545711 ""
+  "partes/2-fundamentacao-teorica.tex" 1780684278.05606 5145 3c9d2a36ad19cc1b7a925aae8ab2418a ""
+  "partes/3-desenvolvimento-a-aplicacao.tex" 1780688721.05818 13593 95bd616061ab8728ef296d16293ac83d ""
   "partes/4-relacao-video.tex" 1780492974.73784 2427 ff7dbe1c23fbdbe451b55818a9c858f9 ""
   "partes/5-conclusao.tex" 1780493446.93911 2689 16ca028c32ca1931f28eaa2e89abed01 ""
-  "partes/6-referencias.tex" 1780615840.72234 1752 3788b36d760ae05dc788799fc5af9080 ""
+  "partes/6-referencias.tex" 1780681692.89811 1752 500533a3ef9242beee46f5f7fec6903f ""
+  "partes/codigos/grafico-bloch.py" 1780688472.54357 300 d86704ce78c8fe84dadb92c330a72661 ""
+  "partes/codigos/validacao-temp.py" 1780688714.43004 301 f67632111baa71b47315ac86fe4a85f8 ""
   (generated)
   "main.aux"
   "main.log"

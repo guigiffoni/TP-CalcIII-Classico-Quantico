@@ -14,6 +14,7 @@ Para o chip modelado, adotamos um domínio quadrado $[0,1] \times [0,1]$ represe
     T(x, y) = 60 + 100 \cdot \exp\left[ -\frac{(x - 0,5)^2 + (y - 0,5)^2}{0,02} \right]
 \end{equation}
 
+
 Os parâmetros foram escolhidos para refletir valores realistas:
 
 \begin{itemize}
@@ -23,6 +24,18 @@ Os parâmetros foram escolhidos para refletir valores realistas:
     \item \textbf{Parâmetro de espalhamento:} $\sigma = 0,1 \text{ cm}$ (o hotspot é estreito)
     \item \textbf{Denominador:} $2\sigma^2 = 2 \times (0,1)^2 = 0,02 \text{ cm}^2$
 \end{itemize}
+
+A distribuição espacial desse campo térmico pode ser visualizada na Figura 1, que ilustra a intensidade do \textit{hotspot} sobre a área do chip.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{hotspot-gaussiano.png}
+    \caption{Mapa térmico e distribuição da função $T(x,y)$ modelando o \textit{hotspot} no processador.}
+    \vspace{0.2cm}
+    \textit{Fonte: Elaborado pelos autores (2026).}
+\end{figure}
+
+Como evidenciado na Figura 1, uma simples medição pontual seria insuficiente para determinar o estado térmico global do componente. Por isso, aplicamos a integral dupla sobre toda a região do domínio para calcular o volume sob esta superfície de temperatura. Dividindo esse volume pela área total, obtemos a temperatura média real dissipada pelo chip ($\bar{T} = 66,28^{\circ}C$), que servirá como base para a nossa modelagem quântica subsequente.
 
 \subsubsection{Cálculo da Integral Dupla}
 Substituindo na fórmula de temperatura média (com Área = 1 cm$^2$ para o domínio unitário):
@@ -83,18 +96,7 @@ $\pm\infty$ sem remorso matemático.}
 \subsection{Validação numérica com Python (SciPy)\cite{numpy}}
 O resultado analítico foi verificado numericamente com a função \texttt{dblquad} da biblioteca \texttt{SciPy}:
 
-\begin{lstlisting}[caption={Validação da temperatura média com SciPy}, label={code:scipy}]
-from scipy.integrate import dblquad
-import numpy as np
-
-def T(y, x):
-    return 60 + 100*np.exp(-((x-0.5)**2 + (y-0.5)**2) / 0.02)
-
-resultado, erro = dblquad(T, 0, 1, lambda x: 0, lambda x: 1)
-
-print(f'T_media = {resultado:.4f} C')   # -> 66.2832 C
-print(f'Erro estimado = {erro:.2e}')    # -> 3.5e-10
-\end{lstlisting}
+\lstinputlisting[language=Python, caption={Validação da temperatura média com SciPy}]{partes/codigos/validacao-temp.py}
 
 O resultado numérico de $66,2832$ \textdegree C confirma o cálculo analítico. O erro estimado de $3,5 \times 10^{-10}$ é desprezível.
 \subsection{Interpretação física}
@@ -187,18 +189,7 @@ Para referência, o volume total da Esfera de Bloch unitária é $V_{Bloch} = \f
 \subsubsection{Verificação com WolframAlpha\cite{wolframalpha} e SciPy\cite{scipy}}
 A integral foi verificada de duas formas independentes. Numericamente, utilizamos a função \texttt{tplquad} do \texttt{SciPy}:
 
-\begin{lstlisting}[language=Python]
-from scipy.integrate import tplquad
-import numpy as np
-
-rT = 0.2752
-def integrando(theta, phi, rho):
-    return rho**2 * np.sin(phi)
-
-V_inc, _ = tplquad(integrando, 0, rT, lambda r: 0, 
-                   lambda r: np.pi, lambda r, p: 0, lambda r, p: 2*np.pi)
-print(f'V_inc = {V_inc:.5f}')  # -> 0.08741
-\end{lstlisting}
+\lstinputlisting[language=Python]{partes/codigos/grafico-bloch.py}
 
 \subsubsection{Probabilidade de erro e acúmulo}
 A probabilidade de erro ($P_{erro}$) é calculada como a fração do volume de incerteza em relação ao volume total da Esfera de Bloch:

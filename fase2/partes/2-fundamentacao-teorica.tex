@@ -19,18 +19,18 @@ $$
     \lim_{\|P\| \to 0} \sum_{i,j} f(x_{ij}^*,\, y_{ij}^*) \, \Delta A_{ij} 
 $$
 
-Geometricamente, a integral dupla de uma função positiva representa o volume do sólido compreendido entre a superfície z = f(x, y) e o plano xy. Essa interpretação é diretamente aplicável ao nosso problema: se f(x, y) = T(x, y) representa a temperatura em cada ponto (x, y) da superfície de um chip, então a integral dupla calcula o "volume térmico" acumulado sobre toda a área.
+Geometricamente, a integral dupla de uma função positiva representa o volume do sólido compreendido entre a superfície $z = f(x,\,y)$ e o plano $xy$. Essa interpretação é diretamente aplicável ao nosso problema: se $f(x,\,y) = T(x,\,y)$ representa a temperatura em cada ponto $(x,\,y)$ da superfície de um chip, então a integral dupla calcula o ``volume térmico'' acumulado sobre toda a área.
 
 A temperatura média de uma superfície é definida matematicamente como:
 $$ T_{Media}=\frac{1}{Area} \iint_A T(x,\,y)\,dx\,dy $$
 
-Essa definição supera a limitação de sensores pontuais: em vez de medir a temperatura em um único ponto — que pode ser arbitrariamente frio ou quente dependendo de sua localização —, a integral pondera uniformemente toda a superfície, fornecendo a verdadeira temperatura representativa do chip.
+Essa definição supera a limitação de sensores pontuais: em vez de medir a temperatura em um único ponto que pode ser arbitrariamente frio ou quente dependendo de sua localização, a integral pondera uniformemente toda a superfície, fornecendo a verdadeira temperatura representativa do chip.
 
 \subsection{A Distribuição Gaussiana como Modelo de \textit{Hotspot}}
-A distribuição gaussiana bidimensional (ou normal bivariada) é a escolha natural para modelar hotspots em chips eletrônicos. Hotspots reais surgem em regiões de alta atividade computacional (ULAs, caches) e dissipam calor de forma concentrada no centro, decrescendo exponencialmente em direção às bordas — exatamente o perfil de uma gaussiana.
+A distribuição gaussiana bidimensional (ou normal bivariada) é a escolha natural para modelar hotspots em chips eletrônicos. Hotspots reais surgem em regiões de alta atividade computacional (ULAs, caches) e dissipam calor de forma concentrada no centro, decrescendo exponencialmente em direção às bordas, como uma gaussiana.
 
 A forma geral da função temperatura com hotspot gaussiano é:
-$$ T(x,\,y) = T_{base} + T_{pico}\times \exp(-\frac{(x-x_0)^2 + (y-y_0)^2}{2\sigma^2}) $$
+$$ T(x,\,y) = T_{base} + T_{pico}\times \exp\left(-\frac{(x-x_0)^2 + (y-y_0)^2}{2\sigma^2}\right) $$
 
 \newpage
 \subsection{Integrais Triplas em Coordenadas Esféricas}
