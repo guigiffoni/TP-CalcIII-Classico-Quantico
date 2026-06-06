@@ -4,15 +4,17 @@ Nesta seção, apresentamos a modelagem matemática do perfil térmico em um chi
 
 \subsection{Modelagem Térmica do Chip Clássico}
 \subsubsection{O problema do sensor único}
-Considere o seguinte problema prático: um engenheiro precisa conhecer a temperatura "real" de um processador em funcionamento. A solução imediata — posicionar um sensor térmico — tem uma limitação fundamental: um sensor pontual mede a temperatura exatamente no ponto onde está localizado, que pode não ser representativo do chip como um todo.
+Considere o seguinte problema prático: um engenheiro precisa conhecer a temperatura ``real'' de um processador em funcionamento. A solução imediata; posicionar um sensor térmico; tem uma limitação fundamental: um sensor pontual mede a temperatura exatamente no ponto onde está localizado, que pode não ser representativo do chip como um todo.
 Processadores modernos têm distribuição de temperatura altamente heterogênea: regiões de baixa atividade permanecem próximas à temperatura ambiente (40--60 \textdegree C), enquanto hotspots em unidades de ponto flutuante ou caches L1 podem atingir 100 \textdegree C ou mais. Um único sensor dependendo de onde é posicionado pode indicar qualquer valor nesse intervalo.
 A solução matemática correta é calcular a integral dupla da distribuição de temperatura sobre toda a área do chip.
-\subsubsection{A função de temperatura T(x, y)}
+\subsubsection{A função de temperatura $T(x, y)$}
 Para o chip modelado, adotamos um domínio quadrado $[0,1] \times [0,1]$ representando um chip de $1 \text{ cm} \times 1 \text{ cm}$, com um hotspot gaussiano centralizado em $(0,5; 0,5)$:
 
-\begin{equation}
-    T(x, y) = 60 + 100 \cdot \exp\left[ -\frac{(x - 0,5)^2 + (y - 0,5)^2}{0,02} \right]
-\end{equation}
+\begin{caixamath}
+    \begin{equation}
+        T(x, y) = 60 + 100 \cdot \exp\left[ -\frac{(x - 0,5)^2 + (y - 0,5)^2}{0,02} \right]
+    \end{equation}
+\end{caixamath}
 
 
 Os parâmetros foram escolhidos para refletir valores realistas:
@@ -25,7 +27,7 @@ Os parâmetros foram escolhidos para refletir valores realistas:
     \item \textbf{Denominador:} $2\sigma^2 = 2 \times (0,1)^2 = 0,02 \text{ cm}^2$
 \end{itemize}
 
-A distribuição espacial desse campo térmico pode ser visualizada na Figura 1, que ilustra a intensidade do \textit{hotspot} sobre a área do chip.
+A distribuição espacial desse campo térmico pode ser visualizada na Figura 2, que ilustra a intensidade do \textit{hotspot} sobre a área do chip.
 
 \begin{figure}[H]
     \centering
@@ -35,46 +37,48 @@ A distribuição espacial desse campo térmico pode ser visualizada na Figura 1,
     \textit{Fonte: Elaborado pelos autores (2026).}
 \end{figure}
 
-Como evidenciado na Figura 1, uma simples medição pontual seria insuficiente para determinar o estado térmico global do componente. Por isso, aplicamos a integral dupla sobre toda a região do domínio para calcular o volume sob esta superfície de temperatura. Dividindo esse volume pela área total, obtemos a temperatura média real dissipada pelo chip ($\bar{T} = 66,28^{\circ}C$), que servirá como base para a nossa modelagem quântica subsequente.
+Como evidenciado na Figura 2, uma simples medição pontual seria insuficiente para determinar o estado térmico global do componente. Por isso, aplicamos a integral dupla sobre toda a região do domínio para calcular o volume sob esta superfície de temperatura. Dividindo esse volume pela área total, obtemos a temperatura média real dissipada pelo chip, que servirá como base para a nossa modelagem quântica subsequente.
 
+\newpage
 \subsubsection{Cálculo da Integral Dupla}
 Substituindo na fórmula de temperatura média (com Área = 1 cm$^2$ para o domínio unitário):
+\begin{caixamath}
+    \textbf{Passo 1 -- Escrever a integral:}
 
-\textbf{Passo 1 -- Escrever a integral:}
+    \[
+    T_{\text{média}}
+    = \int_0^1\!\!\int_0^1
+        \Bigl[\,60 + 100\,e^{-\frac{(x-0{,}5)^2+(y-0{,}5)^2}{0{,}02}}\,\Bigr]
+        \,\mathrm{d}x\,\mathrm{d}y
+    \]
 
-\[
-  T_{\text{média}}
-  = \int_0^1\!\!\int_0^1
-    \Bigl[\,60 + 100\,e^{-\frac{(x-0{,}5)^2+(y-0{,}5)^2}{0{,}02}}\,\Bigr]
-    \,\mathrm{d}x\,\mathrm{d}y
-\]
+    \textbf{Passo 2 -- Separar em dois pedaços:}
 
-\textbf{Passo 2 -- Separar em dois pedaços:}
+    \[
+    = \underbrace{\int_0^1\!\!\int_0^1 60\,\mathrm{d}x\,\mathrm{d}y}_{=\;60}
+    \;+\;
+    100
+    \cdot
+    \underbrace{\int_0^1 e^{-\frac{(x-0{,}5)^2}{0{,}02}}\,\mathrm{d}x}_{=\mathcal{I}}
+    \cdot
+    \underbrace{\int_0^1 e^{-\frac{(y-0{,}5)^2}{0{,}02}}\,\mathrm{d}y}_{=\;\mathcal{I}}
+    \]
 
-\[
-  = \underbrace{\int_0^1\!\!\int_0^1 60\,\mathrm{d}x\,\mathrm{d}y}_{=\;60}
-  \;+\;
-  100
-  \cdot
-  \underbrace{\int_0^1 e^{-\frac{(x-0{,}5)^2}{0{,}02}}\,\mathrm{d}x}_{=\mathcal{I}}
-  \cdot
-  \underbrace{\int_0^1 e^{-\frac{(y-0{,}5)^2}{0{,}02}}\,\mathrm{d}y}_{=\;\mathcal{I}}
-\]
+    \textbf{ Passo 3 -- Calcular $\mathcal{I}$:}
 
-\textbf{ Passo 3 -- Calcular $\mathcal{I}$:}
+    \begin{align*}
+    \mathcal{I}
+    &= \int_0^1 e^{-(x-0{,}5)^2/0{,}02}\,\mathrm{d}x \\[6pt]
+    &\overset{u\,=\,x-0{,}5}{=}
+        \int_{-0{,}5}^{0{,}5} e^{-u^2/0{,}02}\,\mathrm{d}u \\[6pt]
+    &\overset{t\,=\,u/(0{,}1\sqrt{2})}{=}
+        0{,}1\sqrt{2}
+        \int_{-3{,}54}^{3{,}54} e^{-t^2}\,\mathrm{d}t
+        \;\approx\;
+        0{,}1\sqrt{2}\cdot\sqrt{\pi}
+        = 0{,}1\sqrt{2\pi}
+    \end{align*}
 
-\begin{align*}
-  \mathcal{I}
-  &= \int_0^1 e^{-(x-0{,}5)^2/0{,}02}\,\mathrm{d}x \\[6pt]
-  &\overset{u\,=\,x-0{,}5}{=}
-    \int_{-0{,}5}^{0{,}5} e^{-u^2/0{,}02}\,\mathrm{d}u \\[6pt]
-  &\overset{t\,=\,u/(0{,}1\sqrt{2})}{=}
-    0{,}1\sqrt{2}
-    \int_{-3{,}54}^{3{,}54} e^{-t^2}\,\mathrm{d}t
-    \;\approx\;
-    0{,}1\sqrt{2}\cdot\sqrt{\pi}
-    = 0{,}1\sqrt{2\pi}
-\end{align*}
 
 {\small\color{gray}$\text{erf}(3{,}54) \approx 1{,}0000$ -- podemos estender para
 $\pm\infty$ sem remorso matemático.}
@@ -92,6 +96,8 @@ $\pm\infty$ sem remorso matemático.}
   \qquad
   \boxed{\;T_{\text{média}} \approx 66{,}28\,\text{\textdegree C}\;}
 \]
+\end{caixamath}
+\newpage
 
 \subsection{Validação numérica com Python (SciPy)\cite{numpy}}
 O resultado analítico foi verificado numericamente com a função \texttt{dblquad} da biblioteca \texttt{SciPy}:
@@ -101,7 +107,7 @@ O resultado analítico foi verificado numericamente com a função \texttt{dblqu
 O resultado numérico de $66,2832$ \textdegree C confirma o cálculo analítico. O erro estimado de $3,5 \times 10^{-10}$ é desprezível.
 \subsection{Interpretação física}
 
-O resultado $66,28$ \textdegree C pode parecer reconfortante à primeira vista — afinal, está bem abaixo do limite de operação de $100$ \textdegree C. Porém, esse número mascara o verdadeiro perigo: o hotspot está a $160$ \textdegree C, muito acima do limite de temperatura de junção ($T_{junc}$) de $100\text{--}125$ \textdegree C típico de processadores modernos. A diferença de $94$ \textdegree C entre a temperatura média e a temperatura de pico não é captada por nenhum sensor único.
+O resultado $66,28$ \textdegree C pode parecer reconfortante à primeira vista; afinal, está bem abaixo do limite de operação de $100$ \textdegree C. Porém, esse número mascara o verdadeiro perigo: o hotspot está a $160$ \textdegree C, muito acima do limite de temperatura de junção ($T_{junction}$) de $100\text{--}125$ \textdegree C típico de processadores modernos. A diferença de $94$ \textdegree C entre a temperatura média e a temperatura de pico não é captada por apenas um sensor.
 
 \begin{table}[H]
     \centering
@@ -110,10 +116,10 @@ O resultado $66,28$ \textdegree C pode parecer reconfortante à primeira vista �
         \toprule
         \textbf{Grandeza} & \textbf{Valor} & \textbf{Significado} \\
         \midrule
-        Temperatura mínima (bordas) & $60$ \textdegree C & Normal — zona inativa \\
+        Temperatura mínima (bordas) & $60$ \textdegree C & Normal; zona inativa \\
         Temperatura média (integral dupla) & $66,28$ \textdegree C & Representa o chip inteiro \\
         Temperatura de junção (limite) & $100$ \textdegree C & Limiar de segurança \\
-        Temperatura máxima (hotspot) & $160$ \textdegree C & \textbf{PERIGO} — $60$ \textdegree C acima do limite \\
+        Temperatura máxima (hotspot) & $160$ \textdegree C & \textbf{PERIGO}; $60$ \textdegree C acima do limite \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -124,14 +130,14 @@ Esse contraste demonstra por que a integral dupla é indispensável: ela é o "r
 
 Antes de avançar para a parte quântica, é fundamental esclarecer um ponto crucial que diferencia os dois paradigmas computacionais:
 
-Na computação clássica, processadores operam a dezenas ou centenas de graus Celsius. Na computação quântica com qubits supercondutores (como os da IBM, Google e IonQ), os qubits precisam operar a temperaturas da ordem de $10\text{--}20$ millikelvin ($-273,13$ \textdegree C) — fração de grau acima do zero absoluto. Isso é necessário para que os elétrons formem pares de Cooper e o sistema exiba comportamento quântico coerente.
-Sendo assim, estamos usando o processador clássico e sua temperatura de $66,28$ \textdegree C como um "laboratório de escala" para introduzir o conceito central: como o calor, qualquer que seja sua magnitude, agita a matéria e corrompe a informação. 
-O modelo de acoplamento térmico-quântico que desenvolvemos a seguir é explicitamente pedagógico — na física real, o acoplamento envolve matrizes densidade, tempos de relaxação $T_1$ e $T_2$, e equações de Lindblad para sistemas abertos quânticos.
+Na computação clássica, processadores operam a dezenas ou centenas de graus Celsius. Na computação quântica com qubits supercondutores (como os da IBM, Google e IonQ), os qubits precisam operar a temperaturas da ordem de $10\text{--}20$ millikelvin ($-273,13$ \textdegree C); fração de grau acima do zero absoluto. Isso é necessário para que os elétrons formem pares de Cooper e o sistema exiba comportamento quântico coerente.
+Sendo assim, estamos usando o processador clássico e sua temperatura de $66,28$ \textdegree C como um ``laboratório de escala'' para introduzir o conceito central: como o calor, qualquer que seja sua magnitude, agita a matéria e corrompe a informação. 
+O modelo de acoplamento térmico-quântico que desenvolvemos a seguir é explicitamente pedagógico; na física real, o acoplamento envolve matrizes densidade, tempos de relaxação $T_1$ e $T_2$, e equações de Lindblad para sistemas abertos quânticos.
 
 \subsection{Modelagem do Qubit: Integral Tripla na Esfera de Bloch}
 
 \subsubsection{Coordenadas esféricas e o jacobiano}
-A Esfera de Bloch é uma esfera de raio unitário ($R = 1$) no espaço tridimensional. Para calcular volumes nesse espaço com simetria esférica, usamos coordenadas esféricas ($\rho, \phi, \theta$):
+A Esfera de Bloch é uma esfera de raio unitário ($r = 1$) no espaço tridimensional. Para calcular volumes nesse espaço com simetria esférica, usamos coordenadas esféricas ($\rho, \phi, \theta$):
 
 \begin{itemize}
     \item $\rho \in [0, 1]$: raio ($0 = \text{centro}, 1 = \text{superfície}$)
@@ -140,18 +146,22 @@ A Esfera de Bloch é uma esfera de raio unitário ($R = 1$) no espaço tridimens
 \end{itemize}
 
 O elemento de volume em coordenadas esféricas, incluindo o jacobiano, é dado por:
-\begin{equation}
-    dV = \rho^2 \sin(\phi) \, d\rho \, d\phi \, d\theta
-\end{equation}
+\begin{caixamath}
+    \begin{equation}
+        dV = \rho^2 \sin(\phi) \, d\rho \, d\phi \, d\theta
+    \end{equation}
+\end{caixamath}
 
 O jacobiano $\rho^2 \sin(\phi)$ resulta do determinante da matriz jacobiana da transformação $x = \rho \sin(\phi) \cos(\theta)$, $y = \rho \sin(\phi) \sin(\theta)$, $z = \rho \cos(\phi)$. Ele é essencial: sem essa correção, a integral subestimaria as cascas esféricas externas e sobrestimaria as internas.
 
 \subsubsection{Modelo de acoplamento térmico-quântico}
 Para conectar a temperatura média do chip ($T_{\text{média}} = 66,28$ \textdegree C) ao raio da nuvem de incerteza dentro da Esfera de Bloch, adotamos o seguinte modelo linear pedagógico:
 
-\begin{equation}
-       r_T = r_{max} \cdot \frac{T_{\text{média}} - T_{amb}}{T_{junc} - T_{amb}}
-\end{equation}
+\begin{caixamath}
+    \begin{equation}
+        r_T = r_{max} \cdot \frac{T_{\text{média}} - T_{amb}}{T_{junc} - T_{amb}}
+    \end{equation}
+\end{caixamath}
 
 A escolha de $r_T$ como parâmetro de perturbação encontra respaldo na representação geométrica dos estados quânticos: na formalização da matriz densidade, qualquer estado de um qubit é descrito por $\rho = \frac{1}{2}(I + \vec{r} \cdot \vec{\sigma})$, onde $\vec{r}$ é o vetor de Bloch. Estados puros satisfazem $|\vec{r}| = 1$ (superfície da esfera) e estados mistos satisfazem $|\vec{r}| < 1$ (interior). O acoplamento térmico desloca o estado do qubit da superfície para o interior, reduzindo $|\vec{r}|$. O modelo linear adotado parametriza essa contração de forma proporcional ao excesso térmico normalizado, de modo que $r_T = 0$ em temperatura ambiente (estado ideal) e $r_T = r_{max}$ quando o chip atinge a temperatura de junção (perturbação máxima tolerada).
 
@@ -163,40 +173,44 @@ onde:
 \end{itemize}
 
 Substituindo os valores:
-\begin{equation}
-    r_T = 0,5 \times \frac{66,28 - 25}{100 - 25} = 0,5 \times \frac{41,28}{75} = 0,5 \times 0,5504 \approx 0,2752
-\end{equation}
+\begin{caixamath}
+    \begin{equation}
+        r_T = 0,5 \times \frac{66,28 - 25}{100 - 25} = 0,5 \times \frac{41,28}{75} = 0,5 \times 0,5504 \approx 0,2752
+    \end{equation}
+\end{caixamath}
 
-\noindent \textit{Nota de rigor:} Este modelo linear é uma construção didática para conectar os dois mundos via Cálculo III. Na física quântica real, o acoplamento térmico-quântico é descrito pela equação mestra de Lindblad, e o estado do qubit é representado pela matriz densidade $\rho = \frac{1}{2}(I + \vec{r}\cdot\vec{\sigma})$, onde $|\vec{r}| \leq 1$. O raio $|\vec{r}| = \tanh(\hbar\omega/2k_B T)$ descreve o estado térmico de equilíbrio. A representação geométrica como "volume de incerteza" corresponde visualmente à perda de pureza do estado quântico ($\rho \rightarrow \text{estado misto}$).
+\noindent \textit{Nota de rigor:} Este modelo linear é uma construção didática para conectar os dois mundos via Cálculo III. Na física quântica real, o acoplamento térmico-quântico é descrito pela equação mestra de Lindblad, e o estado do qubit é representado pela matriz densidade $\rho = \frac{1}{2}(I + \vec{r}\cdot\vec{\sigma})$, onde $|\vec{r}| \leq 1$. O raio $|\vec{r}| = \tanh\left(\frac{\hbar\omega}{2k_B T}\right)$ descreve o estado térmico de equilíbrio. A representação geométrica como ``volume de incerteza'' corresponde visualmente à perda de pureza do estado quântico ($\rho \rightarrow \text{estado misto}$).
 
 \subsubsection{Cálculo do volume de incerteza}
-O "volume de incerteza" corresponde ao volume de uma esfera de raio $r_T = 0,2752$ dentro da Esfera de Bloch unitária. A integral tripla em coordenadas esféricas é:
+O ``volume de incerteza'' corresponde ao volume de uma esfera de raio $r_T = 0,2752$ dentro da Esfera de Bloch unitária. A integral tripla em coordenadas esféricas é:
+\begin{caixamath}
+    \begin{equation}
+        V_{inc} = \int_{0}^{2\pi} d\theta \times \int_{0}^{\pi} \sin(\phi) \, d\phi \times \int_{0}^{r_T} \rho^2 \, d\rho
+    \end{equation}
 
-\begin{equation}
-    V_{inc} = \int_{0}^{2\pi} d\theta \times \int_{0}^{\pi} \sin(\phi) \, d\phi \times \int_{0}^{r_T} \rho^2 \, d\rho
-\end{equation}
+    Calculando cada integral separadamente:
+    \begin{itemize}
+        \item $\int_{0}^{2\pi} d\theta = 2\pi$
+        \item $\int_{0}^{\pi} \sin(\phi) \, d\phi = [-\cos(\phi)]_{0}^{\pi} = -\cos(\pi) + \cos(0) = 1 + 1 = 2$
+        \item $\int_{0}^{r_T} \rho^2 \, d\rho = \left[\frac{\rho^3}{3}\right]_{0}^{0,2752} = \frac{(0,2752)^3}{3} \approx 0,006954$
+    \end{itemize}
 
-Calculando cada integral separadamente:
-\begin{itemize}
-    \item $\int_{0}^{2\pi} d\theta = 2\pi$
-    \item $\int_{0}^{\pi} \sin(\phi) \, d\phi = [-\cos(\phi)]_{0}^{\pi} = -\cos(\pi) + \cos(0) = 1 + 1 = 2$
-    \item $\int_{0}^{r_T} \rho^2 \, d\rho = \left[\frac{\rho^3}{3}\right]_{0}^{0,2752} = \frac{(0,2752)^3}{3} \approx 0,006954$
-\end{itemize}
-
-Resultado:
-\begin{equation}
-    V_{inc} = 2\pi \times 2 \times 0,006954 = \frac{4}{3}\pi \times (0,2752)^3 \approx 0,0874
-\end{equation}
+    Resultado:
+    \begin{equation}
+        V_{inc} = 2\pi \times 2 \times 0,006954 = \frac{4}{3}\pi \times (0,2752)^3 \approx 0,0874
+    \end{equation}
+\end{caixamath}
 Para referência, o volume total da Esfera de Bloch unitária é $V_{Bloch} = \frac{4}{3}\pi(1)^3 \approx 4,1888$.
 
-\subsubsection{Verificação com WolframAlpha\cite{wolframalpha} e SciPy\cite{scipy}}
+\newpage
+\subsubsection{Verificação com SciPy\cite{scipy}}
 A integral foi verificada de duas formas independentes. Numericamente, utilizamos a função \texttt{tplquad} do \texttt{SciPy}:
 
 \lstinputlisting[language=Python]{partes/codigos/grafico-bloch.py}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{fase2/img/esfera-bloch3.png}
+    \includegraphics[width=0.8\textwidth]{img/esfera-bloch3.png}
     \caption{Representação da Esfera de Bloch.}
     \label{fig:esfera-bloch}
 \end{figure}
@@ -204,10 +218,11 @@ A integral foi verificada de duas formas independentes. Numericamente, utilizamo
 \subsubsection{Probabilidade de erro e acúmulo}
 A probabilidade de erro ($P_{erro}$) é calculada como a fração do volume de incerteza em relação ao volume total da Esfera de Bloch:
 
-\begin{equation}
-    P_{erro} = \frac{V_{inc}}{V_{Bloch}} = \frac{\frac{4}{3}\pi r_T^3}{\frac{4}{3}\pi} = r_T^3 = (0,2752)^3 \approx 0,0208 \approx 2,08\%
-\end{equation}
-
+\begin{caixamath}
+    \begin{equation}
+        P_{erro} = \frac{V_{inc}}{V_{Bloch}} = \frac{\frac{4}{3}\pi r_T^3}{\frac{4}{3}\pi} = r_T^3 = (0,2752)^3 \approx 0,0208 \approx 2,08\%
+    \end{equation}
+\end{caixamath}
 Esse resultado demonstra uma propriedade fundamental: a probabilidade de erro cresce com o cubo do raio $r_T$, e portanto com o cubo da temperatura. O impacto torna-se devastador ao considerar a execução de algoritmos com múltiplas portas lógicas. Se a probabilidade de sucesso por operação é $(1 - P_{erro})$, após $d$ operações temos $P_{sucesso}(d) = (0,9792)^d$.
 
 \begin{table}[H]
@@ -256,4 +271,4 @@ Uma consequência importante dessa cadeia é a sensibilidade cúbica ao calor. C
     \end{tabular}
 \end{table}
 
-Uma redução de apenas $10$ \textdegree C — de $66,28$ \textdegree C para $56$ \textdegree C — já seria suficiente para cruzar o limiar de tolerância de $1\%$. Essa sensibilidade extrema à temperatura justifica os enormes investimentos em refrigeração criogênica nos laboratórios de computação quântica.
+Uma redução de apenas $26,28$ \textdegree C; de $66,28$ \textdegree C para $40$ \textdegree C; já seria suficiente para cruzar o limiar de tolerância de $0,1\%$. Essa sensibilidade extrema à temperatura justifica os enormes investimentos em refrigeração criogênica nos laboratórios de computação quântica.

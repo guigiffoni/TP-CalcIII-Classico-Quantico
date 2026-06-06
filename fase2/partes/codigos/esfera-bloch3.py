@@ -38,7 +38,7 @@ x_m = r_m * np.sin(phi_m) * np.cos(theta_m)
 y_m = r_m * np.sin(phi_m) * np.sin(theta_m)
 z_m = r_m * np.cos(phi_m)
 ax.scatter(x_m, y_m, z_m, color='tomato', s=14, alpha=0.75,
-           label=f'Estado misto — nuvem térmica (r ≤ rT = {rT})', zorder=5)
+           label=f'Estado misto; nuvem térmica (r ≤ rT = {rT})', zorder=5)
 
 # --- Eixos ---
 ax.quiver(0, 0, -1.4, 0, 0, 2.8, color='gray', arrow_length_ratio=0.05,
@@ -74,7 +74,7 @@ ax.set_zlim([-1.4, 1.4])
 ax.set_box_aspect([1, 1, 1])
 ax.set_axis_off()
 
-ax.set_title(f'Esfera de Bloch — Decoerência Térmica\n'
+ax.set_title(f'Esfera de Bloch; Decoerência Térmica\n'
              f'Volume de incerteza: Vinc ≈ 0.0874  |  Perro ≈ 2.08%',
              fontsize=12, fontweight='bold', pad=12)
 

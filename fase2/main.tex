@@ -12,6 +12,18 @@
 \usepackage{textcomp}
 \usepackage{booktabs}
 \usepackage{float}
+\usepackage{tcolorbox}
+% \usepackage[most]{tcolorbox}
+%caixa para destacar as contas
+\newtcolorbox{caixamath}[1][]{
+    colback=gray!5!white,      
+    colframe=gray!50!black,    
+    arc=2mm,                   
+    boxrule=0.5pt,             
+    top=2mm, bottom=2mm,       
+    left=2mm, right=2mm,       
+    #1                         
+}
 % Configuração para o código Python ficar bonito
 \lstset{
     language=Python,
@@ -23,7 +35,10 @@
     numberstyle=\tiny,
     frame=single,
     breaklines=true,
-    captionpos=b
+    captionpos=b,
+    showspaces=false,
+    showstringspaces=false,
+    tabsize=2
 }
 
 \geometry{a4paper, top=3cm, right=2cm, bottom=2cm, left=3cm}
@@ -36,8 +51,10 @@
     }
 }
 \author{
+    Ana Luiza Ribas Ponciano \\
     Guilherme Amaral Giffoni \\
     Kathleen Rodrigues Leite Barbosa \\
+    Márcio Mendes Gazzinelli Gomes
 }
 
 \begin{document}
