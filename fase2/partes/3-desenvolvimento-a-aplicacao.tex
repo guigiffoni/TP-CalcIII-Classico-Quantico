@@ -211,7 +211,7 @@ A integral foi verificada de duas formas independentes. Numericamente, utilizamo
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/esfera-bloch3.png}
-    \caption{Representação da Esfera de Bloch.}
+    \caption{Representação da Esfera de Bloch. A esfera vermelha interna representa a região de incerteza associada à perturbação térmica causada pelo aumento da temperatura.}
     \label{fig:esfera-bloch}
 \end{figure}
 
@@ -242,6 +242,12 @@ Esse resultado demonstra uma propriedade fundamental: a probabilidade de erro cr
 
 Para um algoritmo com apenas $1.000$ portas lógicas, a probabilidade de sucesso com $P_{erro} = 2,08\%$ torna o resultado praticamente inutilizável.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{img/grafico_sucesso_operacoes.png}
+\end{figure}
+
+\newpage
 \subsection{Conexão dos Dois Mundos e Sensibilidade Térmica}
 
 O pipeline completo construído neste trabalho conecta, por uma cadeia de cálculos, a distribuição de temperatura do chip clássico à fidelidade do qubit quântico:
@@ -273,7 +279,7 @@ Uma consequência importante dessa cadeia é a sensibilidade cúbica ao calor. C
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.88\textwidth]{img/curva-perro-temperatura.pdf}
+    \includegraphics[width=0.75\textwidth]{img/curva-perro-temperatura.pdf}
     \caption{Crescimento cúbico de $P_{erro}$ com a temperatura média do chip.
              O ponto atual (66,28°C) situa-se na zona de falha; uma redução
              de 10°C posicionaria o sistema na zona de atenção, reduzindo

@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1780861848.71539 "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" "main.pdf" "main" 1780861849.23261 0
+["pdflatex"] 1780871269.37535 "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" "main.pdf" "main" 1780871269.91705 0
   "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" 1780861848.56582 2045 df6dd366b5731fc8aff7245ba6711db6 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -193,12 +193,13 @@
   "img/curva-perro-temperatura.pdf" 1780861723.11102 29062 220efa63fa8ebd741ca1ade93e1de732 ""
   "img/esfera-bloch-diagrama.png" 1780770502.16835 73558 8df3b7b761addb07d3740ed80833ad10 ""
   "img/esfera-bloch3.png" 1780757866.50634 155402 c8832cbc1427cb6523ad5e01b49ed29e ""
+  "img/grafico_sucesso_operacoes.png" 1780861723.11154 34868 456ef94e0dd2cef75f7b70cf194822bb ""
   "img/hotspot-gaussiano.png" 1780689733.16652 180090 75d055202831695588cca18908e8b03f ""
-  "main.aux" 1780861849.16187 5208 febe80dfc99d08e360b918a0e4c3f9e7 "pdflatex"
+  "main.aux" 1780871269.84729 5341 e95b75d1f231223c7b4ae28d699c63bd "pdflatex"
   "main.tex" 1780861848.56582 2045 df6dd366b5731fc8aff7245ba6711db6 ""
   "partes/1-introducao.tex" 1780684177.50702 2189 a8c74962b7dfc6d34a476bd1fc545711 ""
-  "partes/2-fundamentacao-teorica.tex" 1780777797.42935 6261 789591a55ea7d9f3b6909212f27d7b3f ""
-  "partes/3-desenvolvimento-a-aplicacao.tex" 1780861723.12351 16340 6dc034d9aa0d504a5423b07f09c266e4 ""
+  "partes/2-fundamentacao-teorica.tex" 1780871236.15392 6261 789591a55ea7d9f3b6909212f27d7b3f ""
+  "partes/3-desenvolvimento-a-aplicacao.tex" 1780871268.67731 16604 20be7e0e81cc1587ed1a9a6e8fb75e54 ""
   "partes/4-relacao-video.tex" 1780777078.26677 2400 368998c5f836b9bf970e94ba5e56604e ""
   "partes/5-conclusao.tex" 1780777663.99848 2693 32508f4342aad8f35f3f706dee3caa01 ""
   "partes/6-referencias.tex" 1780777764.11286 2443 a73e099d8d393088ef939e4ce71c3dd5 ""
