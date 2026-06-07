@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1780777798.7445 "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" "main.pdf" "main" 1780777799.84571 0
-  "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" 1780772071.06288 1948 7c9f7d0ddaa984ec697fe7ba2d7ebbd3 ""
+["pdflatex"] 1780855971.22987 "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" "main.pdf" "main" 1780855971.81443 0
+  "/home/guiffoni/Documents/pucminas/3o-periodo/calculo-III/TP-CalcIII-Classico-Quantico/fase2/main.tex" 1780855971.01677 1979 ec3ce2edf04788487eab34b49cf95b9f ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -193,8 +193,8 @@
   "img/esfera-bloch-diagrama.png" 1780770502.16835 73558 8df3b7b761addb07d3740ed80833ad10 ""
   "img/esfera-bloch3.png" 1780757866.50634 155402 c8832cbc1427cb6523ad5e01b49ed29e ""
   "img/hotspot-gaussiano.png" 1780689733.16652 180090 75d055202831695588cca18908e8b03f ""
-  "main.aux" 1780777799.69998 4827 6a4b4cfa7947515740acabe475f6d6be "pdflatex"
-  "main.tex" 1780772071.06288 1948 7c9f7d0ddaa984ec697fe7ba2d7ebbd3 ""
+  "main.aux" 1780855971.71776 4827 6a4b4cfa7947515740acabe475f6d6be "pdflatex"
+  "main.tex" 1780855971.01677 1979 ec3ce2edf04788487eab34b49cf95b9f ""
   "partes/1-introducao.tex" 1780684177.50702 2189 a8c74962b7dfc6d34a476bd1fc545711 ""
   "partes/2-fundamentacao-teorica.tex" 1780777797.42935 6261 789591a55ea7d9f3b6909212f27d7b3f ""
   "partes/3-desenvolvimento-a-aplicacao.tex" 1780777458.28813 15908 260a23585cc037382b216197a03bd71c ""
